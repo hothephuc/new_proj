@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 #include <time.h>
-// #include <conio.h>
+#include <conio.h>
 // #include <boardGenerate.h>
 // #include <logic_check.h>
 // #include <endgameCheck.h>
@@ -23,7 +23,7 @@ int main()
         - Hard: 10x10
     */
     int size = easy_difficulty_size;
-    char Board[size][MAX];
+    char Board[MAX][MAX];
     int cursor = 0;
 
     playgame(Board, size);
