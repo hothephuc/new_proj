@@ -1,15 +1,14 @@
 #include <iostream>
 #include <random>
 #include <time.h>
-#include <conio.h>
+// #include <conio.h>
 // #include <boardGenerate.h>
 // #include <logic_check.h>
 // #include <endgameCheck.h>
 // #include <vfx.h>
-#include ".\header\board.h"
+#include "./header/board.h"
 using namespace std;
 
-//NOTE: hiện vẫn chưa xong các hàm để khiến cho số pokemon chẵn, nhưng vẫn có trường hợp lặp để làm Getmove
 
 int main()
 {
@@ -24,10 +23,9 @@ int main()
         - Hard: 10x10
     */
     int size = easy_difficulty_size;
-    
+    char Board[size][MAX];
     int cursor = 0;
 
-    generateBoard(size);
-    move( cursor, size);
+    playgame(Board, size);
     return 0;
 }
