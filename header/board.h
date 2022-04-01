@@ -175,16 +175,28 @@ void clrscr(){
 
 bool checkY(char Board[][MAX])
 {
-    for(int i = cell.x1; i <= cell.x2; i++)
-    {   
-        if(Board[i][cell.y1] != ' ' || Board[cell.x1][cell.y1] != Board[cell.x2][cell.y2])
-            return false;
-    }
+   if(cell.x1 < cell.x2)
+   {
+      int temp = cell.x1;
+      cell.x1 = cell.x2;
+      cell.x2 = temp;
+   }
+   for(int i = cell.x1; i <= cell.x2; i++)
+   {   
+     if(Board[i][cell.y1] != ' ' || Board[cell.x1][cell.y1] != Board[cell.x2][cell.y2])
+         return false;
+   }
     return true;
 }
 
 bool checkX(char Board[][MAX])
 {
+   if(cell.y1 < cell .y2)
+   {
+      int temp = cell.y1;
+      cell.y1 = cell.y2;
+      cell.y2 = temp;
+   }
    for(int i = cell.y1; i <= cell.y2; i++)
    {   
       if(Board[cell.x1][cell.y1] != ' ' || Board[cell.x1][cell.y1] != Board[cell.x2][cell.y2])
@@ -222,12 +234,12 @@ bool updateBoard(char Board[][MAX], int size)
 
 void move(int cursor,int size, char Board[][MAX]){
    cursor = cursor % (size*size);
-   int n = 2;
+   int n = 2, count = 0;
    char move;
    // clrscr();
    drawBoard(size, cursor, Board);
    //move = _getch();
-   while(move != 'g')
+   while(count != 2)
    {
       move = getch();
       switch(move){
@@ -258,6 +270,7 @@ void move(int cursor,int size, char Board[][MAX]){
                cell.y1 = cursor % size;
                cell.c1 = Board[cell.x1][cell.y1];
                n++;
+               count += 1;
                break;
             }
             else
@@ -266,6 +279,7 @@ void move(int cursor,int size, char Board[][MAX]){
                cell.y2 = cursor % size;
                cell.c2 = Board[cell.x2][cell.y2];
                n++;
+               count += 1;
                break;
             }
          }
@@ -285,7 +299,7 @@ void playgame(char Board[][MAX], int size)
    int spot_left = size * size;
    int cursor = 0;
    createBoard(Board, size);
-   drawBoard(size, cursor, Board);
+   // drawBoard(size, cursor, Board);
    while(spot_left >= 0)
    {
       move(0, size, Board);
