@@ -1,6 +1,6 @@
-// #include<Windows.h>
+#include<Windows.h>
 #include <iostream>
-#include "getch.h"
+// #include "getch.h"
 
 //Struct for singular linked list
 struct Node
@@ -11,9 +11,9 @@ struct Node
 
 struct Pos
 {
-   int x1, y1;
+   int x1 = -1, y1 = -1;
    char c1;
-   int x2, y2;
+   int x2 = -1, y2 = -1;
    char c2;
 };
 
@@ -92,7 +92,7 @@ bool isValid(char Board[][MAX], int x, int y)
 void createBoard(char Board[][MAX], int size)
 {
    
-   int spot_Left = size * size;
+   int spot_Left = size  * size ;
    char type;
    int x, y;
 
@@ -288,7 +288,7 @@ void move(int cursor,int size, char Board[][MAX]){
             return;
          }
       }
-      system("clear");
+      clrscr();
       drawBoard(size, cursor, Board);
       // generateBoard(size);
    }
