@@ -1,6 +1,6 @@
-// #include<Windows.h>
+#include<Windows.h>
 #include <iostream>
-#include "getch.h"
+// #include "getch.h"
 
 //Struct for singular linked list
 struct Node
@@ -318,10 +318,6 @@ void move(int cursor,int size, char Board[][MAX], int spot_left){
       // system("clear");
       clrscr();
       drawBoard(size, cursor, Board, spot_left);
-      std::cout << cell.x1 << " " << cell.y1;
-      std::cout << "\n" << cell.x2 << " " << cell.y2;
-      // generateBoard(size);
-   }
 }
 
 void checkwin(char Board[][MAX], int size)
