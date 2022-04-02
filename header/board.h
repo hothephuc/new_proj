@@ -1,6 +1,6 @@
-#include<Windows.h>
+// #include<Windows.h>
 #include <iostream>
-// #include "getch.h"
+#include "getch.h"
 
 //Struct for singular linked list
 struct Node
@@ -199,13 +199,13 @@ void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
 
 bool checkY(char Board[][MAX])
 {
-   if(cell.x1 < cell.x2)
+   if(cell.y1 > cell.y2)
    {
-      int temp = cell.x1;
-      cell.x1 = cell.x2;
-      cell.x2 = temp;
+      int temp = cell.y1;
+      cell.y1 = cell.y2;
+      cell.y2 = temp;
    }
-   for(int i = cell.x1 + 1; i <= cell.x2; i++)
+   for(int i = cell.y1 + 1; i <= cell.y2; i++)
    {  
       if(Board[cell.x1][i] != cell.c1)
          return false;
@@ -215,13 +215,13 @@ bool checkY(char Board[][MAX])
 
 bool checkX(char Board[][MAX])
 {
-   if(cell.y1 < cell .y2)
+   if(cell.x1 > cell .x2)
    {
-      int temp = cell.y1;
-      cell.y1 = cell.y2;
-      cell.y2 = temp;
+      int temp = cell.x1;
+      cell.x1 = cell.x2;
+      cell.x2 = temp;
    }
-   for(int i = cell.y1; i <= cell.y2; i++)
+   for(int i = cell.x1 + 1; i <= cell.x2; i++)
    {  
       if(Board[i][cell.y1] != cell.c1)
          return false;
@@ -235,9 +235,10 @@ bool updateBoard(char Board[][MAX], int size)
    if(cell.x1 == cell.x2 && cell.y1 == cell.y2)
       return false;
 
-   //prevent player from checking two different variable in two selected cell
    if(cell.c1 != cell.c2)
+   {
       return false;
+   }
 
    //check horizontally
    if(cell.x1 == cell.x2)
@@ -318,6 +319,7 @@ void move(int cursor,int size, char Board[][MAX], int spot_left){
       // system("clear");
       clrscr();
       drawBoard(size, cursor, Board, spot_left);
+   }
 }
 
 void checkwin(char Board[][MAX], int size)
@@ -334,7 +336,6 @@ void checkwin(char Board[][MAX], int size)
       }
    }
    std::cout << "\nYOU WON!!!";
-
 }
 
 void playgame(char Board[][MAX], int size)
@@ -342,14 +343,14 @@ void playgame(char Board[][MAX], int size)
    int spot_left = (size - 2) * (size - 2);
    int cursor = 0;
    createBoard(Board, size);
-   while(spot_left >= 0)
+   while(spot_left != 0)
    {
       move(0, size, Board, spot_left);
-      if(updateBoard(Board, size) == 1)
+      if(updateBoard(Board, size))
       {  
          spot_left -= 2;
          updateBoard(Board, size);
-      } 
+      }  
    }
    checkwin(Board, size);
 }
