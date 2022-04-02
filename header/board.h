@@ -140,6 +140,7 @@ void createBoard(char Board[][MAX], int size)
 //Draw Board
 void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
 {
+   Pos cursor_pos = cell;
    for(int i = 1; i < size - 1; i++)
    {
       drawHorizontal(size);
@@ -162,7 +163,7 @@ void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
          std::cout << "|";
          if(Board[i][j] != ' ')
          {
-            if(i == cursor / size && j == cursor % size)
+            if(i - 1 == cursor / size && j == cursor % size)
             {
                std::cout << "\033[1;31m   " << Board[i][j]  << "   \033[0m";
             }
@@ -298,7 +299,7 @@ void move(int cursor,int size, char Board[][MAX], int spot_left){
          {
             if(n % 2 == 0)
             {
-               cell.x1 = cursor / size;
+               cell.x1 = (cursor / size) + 1;
                cell.y1 = cursor % size;
                cell.c1 = Board[cell.x1][cell.y1];
                n++;
@@ -307,7 +308,7 @@ void move(int cursor,int size, char Board[][MAX], int spot_left){
             }
             else
             {
-               cell.x2 = cursor / size;
+               cell.x2 = (cursor / size) + 1;
                cell.y2 = cursor % size;
                cell.c2 = Board[cell.x2][cell.y2];
                n++;
