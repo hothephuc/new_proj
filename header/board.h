@@ -1,6 +1,6 @@
-// #include<Windows.h>
+#include<Windows.h>
 #include <iostream>
-#include "getch.h"
+//#include "getch.h"
 
 //Struct for singular linked list
 struct Node
@@ -230,6 +230,52 @@ bool checkX(char Board[][MAX])
    return true;
 }
 
+
+bool check_x_vacant(int y1, int y2, int x,char board[][MAX]){
+   int min = y1;
+   int max = y2;
+   if(y2 < y1){
+      min = y2;
+      max = y1;
+   }
+   for(int i = min; i <= max; i++){
+      if((i == cell.y1 && x == cell.x1 )||(i == cell.y2 && x == cell.x2)){
+         continue;
+      }
+      if(board[x][i] != ' '){
+         return false;
+      }
+   }
+   return true;
+}
+
+bool check_y_vacant(int x1, int x2,int y, char board[][MAX]){
+   int min = x1;
+   int max = x2;
+   if(x2 < x1){
+      min = x2;
+      max = x1;
+   }
+   for(int i = min; i <= max; i++){
+      if((i == cell.x1 && y == cell.y1 )||(i == cell.x2 && y == cell.y2)){
+         continue;
+      }
+      if(board[i][y] != ' '){
+         return false;
+      }
+   }
+   return true;
+}
+
+bool check_L(char Board[][MAX]){
+   bool match = 0;
+   if((check_y_vacant(cell.x1, cell.x2, cell.y2,Board) && check_x_vacant(cell.y1, cell.y2,cell.x1, Board)) || (check_x_vacant(cell.y2, cell.y1, cell.x2, Board) && check_y_vacant(cell.x1, cell.x2, cell.y1, Board))){
+      match = 1;
+   }
+   return match;
+}
+
+
 bool updateBoard(char Board[][MAX], int size)
 {
    //prevent player from checking same cell twice
@@ -261,6 +307,12 @@ bool updateBoard(char Board[][MAX], int size)
          Board[cell.x2][cell.y2] = ' ';
          return true;
       }
+   }
+   //check L
+   if(check_L(Board)){
+      Board[cell.x1][cell.y1] = ' ';
+      Board[cell.x2][cell.y2] = ' ';
+      return true;
    }
    return false;
 }
