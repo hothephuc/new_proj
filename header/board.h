@@ -230,7 +230,7 @@ bool checkX(char Board[][MAX])
    return true;
 }
 
-
+//check X and Y coordinates basic
 bool check_x_vacant(int y1, int y2, int x,char board[][MAX]){
    int min = y1;
    int max = y2;
@@ -267,13 +267,54 @@ bool check_y_vacant(int x1, int x2,int y, char board[][MAX]){
    return true;
 }
 
-bool check_L(char Board[][MAX]){
+//check L
+bool check_L(int x1, int x2, int y1, int y2, char Board[][MAX]){
    bool match = 0;
-   if((check_y_vacant(cell.x1, cell.x2, cell.y2,Board) && check_x_vacant(cell.y1, cell.y2,cell.x1, Board)) || (check_x_vacant(cell.y2, cell.y1, cell.x2, Board) && check_y_vacant(cell.x1, cell.x2, cell.y1, Board))){
+   if((check_y_vacant(x1, x2, y2,Board) && check_x_vacant(y1, y2,x1, Board)) || (check_x_vacant(y2, y1, x2, Board) && check_y_vacant(x1, x2, y1, Board))){
       match = 1;
    }
    return match;
 }
+
+//check Z
+bool check_Z_row(char Board[][MAX]){
+   int max = cell.y1, tempmax = cell.x1;
+   int min = cell.y2, tempmin = cell.x2;
+   if(min > max){
+      max = cell.y2;
+      min = cell.y1;
+      tempmax = cell.x2;
+      tempmin = cell.x1;
+   }
+   for(int i = 1; i < max - min; i++){
+      int n = min + i;
+      if (check_L(tempmin, tempmax, min, n, Board)){
+         if(check_x_vacant(n, max, tempmax, Board)){
+            return true;
+         }
+      }
+   }
+}
+
+bool check_Z_col(char Board[][MAX]){
+   int max = cell.x1, tempmax = cell.y1;
+   int min = cell.x2, tempmin = cell.y2;
+   if(min > max){
+      max = cell.x2;
+      min = cell.x1;
+      tempmax = cell.y2;
+      tempmin = cell.y1;
+   }
+   for(int i = 1; i < max - min; i++){
+      int n = min + i;
+      if (check_L(min, n, tempmin, tempmax, Board)){
+         if(check_y_vacant(n, max, tempmax, Board)){
+            return true;
+         }
+      }
+   }
+}
+
 
 
 bool updateBoard(char Board[][MAX], int size)
@@ -309,7 +350,7 @@ bool updateBoard(char Board[][MAX], int size)
       }
    }
    //check L
-   if(check_L(Board)){
+   if(check_L(cell.x1, cell.x2, cell.y1, cell.y2, Board)){
       Board[cell.x1][cell.y1] = ' ';
       Board[cell.x2][cell.y2] = ' ';
       return true;
