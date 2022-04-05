@@ -400,6 +400,7 @@ bool updateBoard(char Board[][MAX], int size){
          Board[cell.x2][cell.y2] = ' ';
          return true;
       }
+      //check u
       if (check_u_col(Board, size)) {
          Board[cell.x1][cell.y1] = ' ';
          Board[cell.x2][cell.y2] = ' ';
