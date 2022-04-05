@@ -315,49 +315,103 @@ bool check_Z_col(char Board[][MAX]){
    }
 }
 
-
-
-bool updateBoard(char Board[][MAX], int size)
-{
-   //prevent player from checking same cell twice
-   if(cell.x1 == cell.x2 && cell.y1 == cell.y2)
-      return false;
-
-   if(cell.c1 != cell.c2)
-   {
-      return false;
+bool check_u_row(char Board[][MAX], int size){
+   int max = cell.y1, tempmax = cell.x1;
+   int min = cell.y2, tempmin = cell.x2;
+   if(min > max){
+      max = cell.y2;
+      min = cell.y1;
+      tempmax = cell.x2;
+      tempmin = cell.x1;
    }
-
-   //check horizontally
-   if(cell.x1 == cell.x2)
-   {
-      if(checkY(Board))
-      {
-         Board[cell.x1][cell.y1] = ' ';
-         Board[cell.x2][cell.y2] = ' ';
-         return true;
+   for(int i = 1; i < size - min; i++){
+      int n = min + i;
+      if (check_L(min, n, tempmin, tempmax, Board)){
+         if(check_x_vacant(n, max, tempmax, Board)){
+            return true;
+         }
       }
    }
-
-   //check vertically
-   if(cell.y1 == cell.y2)
-   {
-      if(checkX(Board))
-      {
-         Board[cell.x1][cell.y1] = ' ';
-         Board[cell.x2][cell.y2] = ' ';
-         return true;
-      }
-   }
-   //check L
-   if(check_L(cell.x1, cell.x2, cell.y1, cell.y2, Board)){
-      Board[cell.x1][cell.y1] = ' ';
-      Board[cell.x2][cell.y2] = ' ';
-      return true;
-   }
-   return false;
 }
 
+bool check_u_col(char Board[][MAX], int size){
+   int max = cell.x1, tempmax = cell.y1;
+   int min = cell.x2, tempmin = cell.y2;
+   if(min > max){
+      max = cell.x2;
+      min = cell.x1;
+      tempmax = cell.y2;
+      tempmin = cell.y1;
+   }
+   for(int i = 1; i < size - min; i++){
+      int n = min + i;
+      if (check_L(min, n, tempmin, tempmax, Board)){
+         if(check_y_vacant(n, max, tempmax, Board)){
+            return true;
+         }
+      }
+   }
+}
+
+
+bool updateBoard(char Board[][MAX], int size){
+    //prevent player from checking same cell twice
+      if (cell.x1 == cell.x2 && cell.y1 == cell.y2)
+         return false;
+
+      if (cell.c1 != cell.c2){
+         return false;
+      }
+
+    //check horizontally
+      if (cell.x1 == cell.x2){
+         if (checkY(Board)){
+            Board[cell.x1][cell.y1] = ' ';
+            Board[cell.x2][cell.y2] = ' ';
+            return true;
+         }
+      }
+
+    //check vertically
+      if (cell.y1 == cell.y2)
+      {
+         if (checkX(Board))
+         {
+            Board[cell.x1][cell.y1] = ' ';
+            Board[cell.x2][cell.y2] = ' ';
+            return true;
+         }
+      }
+    //check L
+      if (check_L(cell.x1, cell.x2, cell.y1, cell.y2, Board)) {
+         Board[cell.x1][cell.y1] = ' ';
+         Board[cell.x2][cell.y2] = ' ';
+         return true;
+      }
+
+    //check Z
+      if (check_Z_col(Board)) {
+         Board[cell.x1][cell.y1] = ' ';
+         Board[cell.x2][cell.y2] = ' ';
+         return true;
+      }
+      if (check_Z_row(Board)) {
+         Board[cell.x1][cell.y1] = ' ';
+         Board[cell.x2][cell.y2] = ' ';
+         return true;
+      }
+      if (check_u_col(Board, size)) {
+         Board[cell.x1][cell.y1] = ' ';
+         Board[cell.x2][cell.y2] = ' ';
+         return true;
+      }
+      if (check_u_row(Board, size)) {
+         Board[cell.x1][cell.y1] = ' ';
+         Board[cell.x2][cell.y2] = ' ';
+         return true;
+      }
+      return false;
+}
 void move(int cursor,int size, char Board[][MAX], int spot_left){
    cursor =  1 + cursor % (size*size);;
    int n = 2, count = 0;
