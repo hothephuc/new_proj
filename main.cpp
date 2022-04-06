@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 #include <time.h>
-#include <conio.h>
+// #include <conio.h>
 // #include <boardGenerate.h>
 // #include <logic_check.h>
 // #include <endgameCheck.h>

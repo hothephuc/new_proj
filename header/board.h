@@ -1,6 +1,6 @@
-#include<Windows.h>
+// #include<Windows.h>
 #include <iostream>
-//#include "getch.h"
+#include "getch.h"
 
 //Struct for singular linked list
 struct Node
@@ -49,7 +49,6 @@ void LinkedList(char Board[][MAX], int size)
 void clrscr(){
    std::cout << "\033[2J\033[1;1H";
 }
-
 
 
 //Draw Vertical line
@@ -178,9 +177,9 @@ void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
          }
          else
          {
-            if(i == cursor / size && j == cursor % size)
+            if(i - 1 == cursor / size && j == cursor % size)
             {
-               std::cout << "\033[1;36m  NUL  \033[0m";
+               std::cout << "\033[1;31m  NUL  \033[0m";
             }
             else
                std::cout << "  NUL  ";
@@ -471,7 +470,7 @@ void move(int cursor,int size, char Board[][MAX], int spot_left){
    }
 }
 
-void checkwin(char Board[][MAX], int size)
+bool checkwin(char Board[][MAX], int size)
 {
    for(int i = 1; i < size - 1; i++)
    {
@@ -479,12 +478,11 @@ void checkwin(char Board[][MAX], int size)
       {
          if(Board[i][j] != ' ')
          {
-            std::cout << "\nYOU LOSE";
-            return;
+            return false;
          }
       }
    }
-   std::cout << "\nYOU WON!!!";
+   return true;
 }
 
 void playgame(char Board[][MAX], int size)
@@ -501,5 +499,7 @@ void playgame(char Board[][MAX], int size)
          updateBoard(Board, size);
       }  
    }
-   checkwin(Board, size);
+   if(checkwin(Board, size))
+      std::cout << "You won !!!";
+   else std::cout << "you lose !!!";
 }
