@@ -178,7 +178,7 @@ void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
          }
          else
          {
-            if(i == cursor / size && j == cursor % size)
+            if(i - 1 == cursor / size && j == cursor % size)
             {
                std::cout << "\033[1;36m  NUL  \033[0m";
             }
