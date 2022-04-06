@@ -1,6 +1,6 @@
-#include<Windows.h>
+//#include<Windows.h>
 #include <iostream>
-//#include "getch.h"
+#include "getch.h"
 
 //Struct for singular linked list
 struct Node
@@ -49,8 +49,6 @@ void LinkedList(char Board[][MAX], int size)
 void clrscr(){
    std::cout << "\033[2J\033[1;1H";
 }
-
-
 
 //Draw Vertical line
 void drawVertical(int size)
@@ -138,7 +136,7 @@ void createBoard(char Board[][MAX], int size)
 }
 
 //Draw Board
-void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
+void drawBoard(int size, int cursor, char Board[][MAX], int score)
 {
    Pos cursor_pos = cell;
    for(int i = 1; i < size - 1; i++)
@@ -178,7 +176,7 @@ void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
          }
          else
          {
-            if(i == cursor / size && j == cursor % size)
+            if(i - 1 == cursor / size && j == cursor % size)
             {
                std::cout << "\033[1;36m  NUL  \033[0m";
             }
@@ -195,7 +193,7 @@ void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
    std::cout << "\n";
    std::cout <<"Use A,S,D,W to move.\n";
    std::cout <<"Press space bar to select.\n";
-   std::cout << "\nyou have: " <<  spot_left << " left\n\n";
+   std::cout << "Your score is: " << score << "\n";
 }
 
 bool checkY(char Board[][MAX])
@@ -229,7 +227,6 @@ bool checkX(char Board[][MAX])
    }
    return true;
 }
-
 
 bool check_x_vacant(int y1, int y2, int x,char board[][MAX]){
    int min = y1;
@@ -275,13 +272,13 @@ bool check_L(char Board[][MAX]){
    return match;
 }
 
-
 bool updateBoard(char Board[][MAX], int size)
 {
    //prevent player from checking same cell twice
    if(cell.x1 == cell.x2 && cell.y1 == cell.y2)
       return false;
 
+   //prevent player from checking two different cells
    if(cell.c1 != cell.c2)
    {
       return false;
@@ -308,6 +305,7 @@ bool updateBoard(char Board[][MAX], int size)
          return true;
       }
    }
+
    //check L
    if(check_L(Board)){
       Board[cell.x1][cell.y1] = ' ';
@@ -317,12 +315,12 @@ bool updateBoard(char Board[][MAX], int size)
    return false;
 }
 
-void move(int cursor,int size, char Board[][MAX], int spot_left){
+void move(int cursor,int size, char Board[][MAX], int score){
    cursor =  1 + cursor % (size*size);;
    int n = 2, count = 0;
    char move;
    // clrscr();
-   drawBoard(size, cursor, Board, spot_left);
+   drawBoard(size, cursor, Board, score);
    //move = _getch();
    while(count != 2)
    {
@@ -371,7 +369,7 @@ void move(int cursor,int size, char Board[][MAX], int spot_left){
       }
       // system("clear");
       clrscr();
-      drawBoard(size, cursor, Board, spot_left);
+      drawBoard(size, cursor, Board, score);
    }
 }
 
@@ -388,22 +386,28 @@ void checkwin(char Board[][MAX], int size)
          }
       }
    }
-   std::cout << "\nYOU WON!!!";
+   std::cout << "\nYOU WON!!";
 }
 
 void playgame(char Board[][MAX], int size)
 {
    int spot_left = (size - 2) * (size - 2);
-   int cursor = 0;
+   int cursor = 0, score = 0;
    createBoard(Board, size);
    while(spot_left != 0)
    {
-      move(0, size, Board, spot_left);
+      move(0, size, Board);
       if(updateBoard(Board, size))
       {  
          spot_left -= 2;
+         score += 100;
          updateBoard(Board, size);
       }  
    }
    checkwin(Board, size);
 }
+
+
+
+
+ 
