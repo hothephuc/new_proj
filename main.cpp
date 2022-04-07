@@ -1,29 +1,9 @@
-#include <iostream>
-#include <random>
-#include <time.h>
-// #include <conio.h>
 // #include <boardGenerate.h>
 // #include <logic_check.h>
 // #include <endgameCheck.h>
 // #include <vfx.h>
 #include "./header/board.h"
-using namespace std;
 
-void print(char Board[][MAX], int size)
-{
-    for(int i = 0; i < size - 0; i++)
-    {
-        for(int j = 0; j < size - 0; j++)
-        {
-            if(Board[i][j] == ' ')
-            {
-                std::cout << "H ";
-            }
-            else std::cout << Board[i][j] << " ";
-        }
-        std::cout << "\n";
-    }
-}
 
 int main()
 {

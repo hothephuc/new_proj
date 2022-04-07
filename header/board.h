@@ -1,20 +1,38 @@
+//For window
 //#include<Windows.h>
-#include <iostream>
+// #include <conio.h>
+
+//For linux
 #include "getch.h"
+
+#include <iostream>
+#include <string>
+#include <chrono>
+#include <random>
+#include <time.h>
+#include <fstream>
+
+using namespace std;
 
 //Struct for singular linked list
 struct Node
+
 {
    char value;
    Node* next;
 };
-
 struct Pos
 {
    int x1 = 1, y1 = 0;
    char c1;
    int x2 = 1, y2 = 0;
    char c2;
+};
+
+struct leader_board
+{
+   string name;
+   int score;
 };
 
 Pos cell;
@@ -163,11 +181,11 @@ void drawBoard(int size, int cursor, char Board[][MAX], int score)
          {
             if(i - 1 == cursor / size && j == cursor % size)
             {
-               std::cout << "\033[1;31m   " << Board[i][j]  << "   \033[0m";
+               std::cout << "\033[1;31m  >" << Board[i][j]  << "<  \033[0m";
             }
             else if(cell.x1 == i && cell.y1 == j || cell.x2 == i && cell.y2 == j)
             {
-               std::cout << "\033[1;33m   " << Board[i][j]  << "   \033[0m";
+               std::cout << "\033[1;33m  >" << Board[i][j]  << "<  \033[0m";
             }
             else
             {
@@ -178,10 +196,10 @@ void drawBoard(int size, int cursor, char Board[][MAX], int score)
          {
             if(i - 1 == cursor / size && j == cursor % size)
             {
-               std::cout << "\033[1;36m  NUL  \033[0m";
+               std::cout << "\033[1;36m  > <  \033[0m";
             }
             else
-               std::cout << "  NUL  ";
+               std::cout << "       ";
          }
          //
       }
@@ -396,7 +414,7 @@ void playgame(char Board[][MAX], int size)
    createBoard(Board, size);
    while(spot_left != 0)
    {
-      move(0, size, Board);
+      move(0, size, Board, score);
       if(updateBoard(Board, size))
       {  
          spot_left -= 2;
@@ -407,7 +425,37 @@ void playgame(char Board[][MAX], int size)
    checkwin(Board, size);
 }
 
+void getLeaderBoard(leader_board player[5])
+{
+   string temp;
+   ifstream read("leader_board.txt");
+   if(read)
+   {
+      for(int i = 0; i < 5; i++)
+      {
+         getline(read, player[i].name, '-');
+         getline(read, temp);
+         player[i].score = stoi(temp);
+      }
+   }
+}
 
+void setLeaderBoard(int score)
+{
+   leader_board player[5];
+   for(int i = 0; i < 5; i++)
+   {
+      if(player[i].score < score)
+      {
+         std::cout << "enter name: ";
+         std::cin >> player[i].name;
+         player[i].score = score;
+         break;
+      }
+   }
+  
+   ofstream input_file("leader_board.txt", ios::app | ios::binary); 
+}
 
 
  
