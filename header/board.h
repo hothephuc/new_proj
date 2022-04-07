@@ -99,21 +99,6 @@ void createBoard(char Board[][MAX], int size)
 
    fillBoard(size, Board);
    
-   // while(spot_Left != 0)
-   // {
-   //    type = 'A' + rand() % 26;
-   //    for(int i = 0; i < 2; i++)
-   //    {
-   //       do
-   //       {
-   //          x = rand() % size;
-   //          y = rand() % size;
-   //       } while(isValid(Board, x, y));
-   //       Board[x][y] = type;
-   //    }
-   //    spot_Left -= 2;
-   // }
-
    for(int i = 1; i < size - 1 ; i++)
    {
       for(int j = 1; j < size - 1; j++)
