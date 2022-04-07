@@ -1,5 +1,6 @@
 // #include<Windows.h>
 #include <iostream>
+#include <fstream>
 #include "getch.h"
 
 //Struct for singular linked list
@@ -15,6 +16,12 @@ struct Pos
    char c1;
    int x2 = 1, y2 = 0;
    char c2;
+};
+
+struct leader_board
+{
+   string name;
+   int score;
 };
 
 Pos cell;
@@ -149,11 +156,11 @@ void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
          {
             if(i - 1 == cursor / size && j == cursor % size)
             {
-               std::cout << "\033[1;31m   " << Board[i][j]  << "   \033[0m";
+               std::cout << "\033[1;31m  >" << Board[i][j]  << "<  \033[0m";
             }
             else if(cell.x1 == i && cell.y1 == j || cell.x2 == i && cell.y2 == j)
             {
-               std::cout << "\033[1;33m   " << Board[i][j]  << "   \033[0m";
+               std::cout << "\033[1;33m  >" << Board[i][j]  << "<  \033[0m";
             }
             else
             {
@@ -164,10 +171,10 @@ void drawBoard(int size, int cursor, char Board[][MAX], int spot_left)
          {
             if(i - 1 == cursor / size && j == cursor % size)
             {
-               std::cout << "\033[1;31m  NUL  \033[0m";
+               std::cout << "\033[1;31m  > <  \033[0m";
             }
             else
-               std::cout << "  NUL  ";
+               std::cout << "       ";
          }
          //
       }
@@ -487,4 +494,41 @@ void playgame(char Board[][MAX], int size)
    if(checkwin(Board, size))
       std::cout << "You won !!!";
    else std::cout << "you lose !!!";
+}
+
+void getLeaderBoard(leader_board player[5])
+{
+   string temp;
+   ifstream read("leader_board.txt");
+   if(read)
+   {
+      for(int i = 0; i < 5; i++)
+      {
+         getline(read, player[i].name, '-');
+         getline(read, temp);
+         player[i].score = stoi(temp);
+      }
+   }
+   read.close();
+}
+
+void setLeaderBoard(int score, leader_board player[5])
+{
+   for(int i = 0; i < 5; i++)
+   {
+      if(score > player[i].score)
+      {
+         std::cout << "Your name: ";
+         std::cin >> player[i].name;
+         player[i].score = score;
+         break;
+      }
+   }
+
+   ofstream save("leader_board.txt", ios::binary);
+   for(int i = 0; i < 5; i++)
+   {
+      save << player[i].name << "-" << player[i].score << "\n"; 
+   }
+   save.close();
 }
